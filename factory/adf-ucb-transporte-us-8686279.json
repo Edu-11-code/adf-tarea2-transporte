@@ -1,0 +1,10 @@
+{
+	"name": "adf-ucb-transporte-us-8686279",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "westus"
+}
