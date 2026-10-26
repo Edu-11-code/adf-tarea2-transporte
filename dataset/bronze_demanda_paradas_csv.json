@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "bronze"
+			"name": "bronze/csv"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
@@ -56,5 +56,6 @@
 				"type": "String"
 			}
 		]
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

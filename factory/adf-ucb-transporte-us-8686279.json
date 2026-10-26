@@ -6,5 +6,10 @@
 			"editable": true
 		}
 	},
-	"location": "westus"
+	"location": "westus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a319716f-293e-4f58-b9fb-3ded4e63f9c3",
+		"tenantId": "cc28633f-12b8-46cb-bc15-951dae239b4d"
+	}
 }
