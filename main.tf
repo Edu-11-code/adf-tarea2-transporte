@@ -191,3 +191,95 @@ resource "azurerm_data_factory" "adf" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = "westus"
 }
+
+
+resource "terraform_data" "adf_template_deployment" {
+
+  triggers_replace = {
+    template_hash = filesha256(
+      "${path.module}/despliegue/adf/adf-ucb-transporte-us-8686279/ARMTemplateForFactory.json"
+    )
+
+    parameters_hash = filesha256(
+      "${path.module}/despliegue/adf/adf-ucb-transporte-us-8686279/ARMTemplateParametersForFactory.json"
+    )
+
+    linked_template_hash = filesha256(
+      "${path.module}/despliegue/adf/adf-ucb-transporte-us-8686279/linkedTemplates/ArmTemplate_0.json"
+    )
+
+    linked_master_hash = filesha256(
+      "${path.module}/despliegue/adf/adf-ucb-transporte-us-8686279/linkedTemplates/ArmTemplate_master.json"
+    )
+  }
+
+
+  depends_on = [
+    azurerm_data_factory.adf,
+    azurerm_mssql_database.db,
+    terraform_data.erp_schema
+  ]
+
+  provisioner "local-exec" {
+    interpreter = ["PowerShell", "-NoProfile", "-Command"]
+
+    environment = {
+      RG_NAME          = azurerm_resource_group.rg.name
+      TEMPLATE_PATH    = "${path.module}/despliegue/adf/adf-ucb-transporte-us-8686279/ARMTemplateForFactory.json"
+      FACTORY_NAME     = azurerm_data_factory.adf.name
+      STORAGE_KEY      = azurerm_storage_account.storage.primary_access_key
+      STORAGE_URL      = "https://${azurerm_storage_account.storage.name}.dfs.core.windows.net/"
+      SQL_SERVER       = azurerm_mssql_server.sql_server.fully_qualified_domain_name
+      SQL_DATABASE_DW  = azurerm_mssql_database.db["dw_transporte"].name
+      SQL_DATABASE_ERP = azurerm_mssql_database.db["erp_transporte_db"].name
+      SQL_USER         = azurerm_mssql_server.sql_server.administrator_login
+      SQL_PASSWORD     = azurerm_mssql_server.sql_server.administrator_login_password
+    }
+
+    command = <<-EOT
+      $ErrorActionPreference = "Stop"
+
+      $params = @{
+        '$schema' = 'https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#'
+        contentVersion = '1.0.0.0'
+        parameters = @{
+          factoryName = @{ value = $env:FACTORY_NAME }
+          sa_transporte_accountKey = @{ value = $env:STORAGE_KEY }
+          sa_transporte_properties_typeProperties_url = @{ value = $env:STORAGE_URL }
+          sql_dw_transporte_password = @{ value = $env:SQL_PASSWORD }
+          sql_dw_transporte_properties_typeProperties_server = @{ value = $env:SQL_SERVER }
+          sql_dw_transporte_properties_typeProperties_database = @{ value = $env:SQL_DATABASE_DW }
+          sql_dw_transporte_properties_typeProperties_userName = @{ value = $env:SQL_USER }
+          sql_erp_transporte_password = @{ value = $env:SQL_PASSWORD }
+          sql_erp_transporte_properties_typeProperties_server = @{ value = $env:SQL_SERVER }
+          sql_erp_transporte_properties_typeProperties_database = @{ value = $env:SQL_DATABASE_ERP }
+          sql_erp_transporte_properties_typeProperties_userName = @{ value = $env:SQL_USER }
+        }
+      }
+
+      $paramsPath = Join-Path $env:TEMP "adf-terraform-parameters.json"
+      $json = $params | ConvertTo-Json -Depth 10
+      [System.IO.File]::WriteAllText(
+        $paramsPath,
+        $json,
+        [System.Text.UTF8Encoding]::new($false)
+      )
+
+      try {
+        az deployment group create `
+          --name "adf-terraform-deployment" `
+          --resource-group $env:RG_NAME `
+          --template-file $env:TEMPLATE_PATH `
+          --parameters "@$paramsPath" `
+          --output none
+
+        if ($LASTEXITCODE -ne 0) {
+          throw "Falló el despliegue de la plantilla de Data Factory."
+        }
+      }
+      finally {
+        Remove-Item $paramsPath -Force -ErrorAction SilentlyContinue
+      }
+    EOT
+  }
+}
