@@ -217,6 +217,21 @@ resource "terraform_data" "adf_template_deployment" {
     linked_master_hash = filesha256(
       "${path.module}/despliegue/adf/adf-ucb-transporte-us-8686279/linkedTemplates/ArmTemplate_master.json"
     )
+    sql_server_id = azurerm_mssql_server.sql_server.id
+
+    dw_database_id = azurerm_mssql_database.db["dw_transporte"].id
+
+    erp_database_id = azurerm_mssql_database.db["erp_transporte_db"].id
+
+    sql_password_hash = sha256(
+      azurerm_mssql_server.sql_server.administrator_login_password
+    )
+
+    storage_key_hash = sha256(
+      azurerm_storage_account.storage.primary_access_key
+    )
+
+    factory_name = azurerm_data_factory.adf.name
   }
 
 
