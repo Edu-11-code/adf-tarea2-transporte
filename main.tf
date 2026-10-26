@@ -190,12 +190,18 @@ resource "azurerm_data_factory" "adf" {
   name                = "adf-ucb-transporte-us-8686279"
   resource_group_name = azurerm_resource_group.rg.name
   location            = "westus"
+  identity {
+    type = "SystemAssigned"
+  }
 }
+
+
 
 
 resource "terraform_data" "adf_template_deployment" {
 
   triggers_replace = {
+    deployment_version = "2"
     template_hash = filesha256(
       "${path.module}/despliegue/adf/adf-ucb-transporte-us-8686279/ARMTemplateForFactory.json"
     )
@@ -217,11 +223,11 @@ resource "terraform_data" "adf_template_deployment" {
   depends_on = [
     azurerm_data_factory.adf,
     azurerm_mssql_database.db,
-    terraform_data.erp_schema
+    terraform_data.erp_schema,
   ]
 
   provisioner "local-exec" {
-    interpreter = ["PowerShell", "-NoProfile", "-Command"]
+    interpreter = ["C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "-NoProfile", "-Command"]
 
     environment = {
       RG_NAME          = azurerm_resource_group.rg.name
