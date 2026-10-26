@@ -123,7 +123,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "bronze/csv"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -188,7 +188,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "bronze/csv"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -247,6 +247,309 @@
 					},
 					{
 						"name": "descripcion",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_notas_fuente_2022_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Notas_fuente",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2022.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "elemento",
+						"type": "String"
+					},
+					{
+						"name": "detalle",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_paradas_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "paradas.csv",
+						"folderPath": "datos_csv",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "nro_parada",
+						"type": "String"
+					},
+					{
+						"name": "nombre_parada",
+						"type": "String"
+					},
+					{
+						"name": "zona",
+						"type": "String"
+					},
+					{
+						"name": "latitud",
+						"type": "String"
+					},
+					{
+						"name": "longitud",
+						"type": "String"
+					},
+					{
+						"name": "fecha_desde",
+						"type": "String"
+					},
+					{
+						"name": "fecha_hasta",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_rutas_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "rutas.csv",
+						"folderPath": "datos_csv",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "cod_ruta",
+						"type": "String"
+					},
+					{
+						"name": "nombre_ruta",
+						"type": "String"
+					},
+					{
+						"name": "origen",
+						"type": "String"
+					},
+					{
+						"name": "destino",
+						"type": "String"
+					},
+					{
+						"name": "fecha_desde",
+						"type": "String"
+					},
+					{
+						"name": "fecha_hasta",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_vehiculos_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "vehiculos.csv",
+						"folderPath": "datos_csv",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "nro_bus",
+						"type": "String"
+					},
+					{
+						"name": "placa",
+						"type": "String"
+					},
+					{
+						"name": "tipo_bus",
+						"type": "String"
+					},
+					{
+						"name": "capacidad",
+						"type": "String"
+					},
+					{
+						"name": "fecha_desde",
+						"type": "String"
+					},
+					{
+						"name": "fecha_hasta",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_viajes_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "viajes.csv",
+						"folderPath": "datos_csv",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_viaje",
+						"type": "String"
+					},
+					{
+						"name": "cod_ruta",
+						"type": "String"
+					},
+					{
+						"name": "nro_bus",
+						"type": "String"
+					},
+					{
+						"name": "fec_servicio",
+						"type": "String"
+					},
+					{
+						"name": "hora_programada",
+						"type": "String"
+					},
+					{
+						"name": "hora_salida",
+						"type": "String"
+					},
+					{
+						"name": "hora_llegada",
+						"type": "String"
+					},
+					{
+						"name": "pasajeros_reportados",
+						"type": "String"
+					},
+					{
+						"name": "km_recorridos",
+						"type": "String"
+					},
+					{
+						"name": "estado_viaje",
+						"type": "String"
+					},
+					{
+						"name": "tipo_metrica",
 						"type": "String"
 					}
 				]
