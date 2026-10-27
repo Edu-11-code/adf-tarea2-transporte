@@ -1,0 +1,24 @@
+{
+	"name": "bronze_viajes_2023_xls",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_transporte",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze/xls/2023"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "operacion_2023.xlsx",
+				"folderPath": "datos_xls",
+				"fileSystem": "raw"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}
