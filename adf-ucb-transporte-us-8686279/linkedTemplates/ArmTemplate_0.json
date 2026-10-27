@@ -114,6 +114,132 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/bronze_demanda_paradas_2022_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2022"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Demanda_Paradas",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2022.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "fecha_servicio",
+						"type": "String"
+					},
+					{
+						"name": "cod_ruta",
+						"type": "String"
+					},
+					{
+						"name": "nro_parada",
+						"type": "String"
+					},
+					{
+						"name": "franja",
+						"type": "String"
+					},
+					{
+						"name": "estimacion_abordajes",
+						"type": "String"
+					},
+					{
+						"name": "estimacion_descensos",
+						"type": "String"
+					},
+					{
+						"name": "demanda_no_atendida",
+						"type": "String"
+					},
+					{
+						"name": "metodo",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_demanda_paradas_2023_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2023"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Demanda_Paradas",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2023.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "fecha_servicio",
+						"type": "String"
+					},
+					{
+						"name": "cod_ruta",
+						"type": "String"
+					},
+					{
+						"name": "nro_parada",
+						"type": "String"
+					},
+					{
+						"name": "franja",
+						"type": "String"
+					},
+					{
+						"name": "estimacion_abordajes",
+						"type": "String"
+					},
+					{
+						"name": "estimacion_descensos",
+						"type": "String"
+					},
+					{
+						"name": "demanda_no_atendida",
+						"type": "String"
+					},
+					{
+						"name": "metodo",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/bronze_demanda_paradas_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -248,7 +374,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/bronze_demanda_paradas_xls')]",
+			"name": "[concat(parameters('factoryName'), '/bronze_incidentes_2022_xls')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -257,7 +383,82 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze/xls"
+					"name": "bronze/xls/2022"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Incidentes",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2022.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "id_incidente",
+						"type": "String"
+					},
+					{
+						"name": "tipo",
+						"type": "String"
+					},
+					{
+						"name": "severidad",
+						"type": "String"
+					},
+					{
+						"name": "fecha_inicio",
+						"type": "String"
+					},
+					{
+						"name": "hora_inicio",
+						"type": "String"
+					},
+					{
+						"name": "fecha_fin",
+						"type": "String"
+					},
+					{
+						"name": "hora_fin",
+						"type": "String"
+					},
+					{
+						"name": "fecha_registro",
+						"type": "String"
+					},
+					{
+						"name": "rutas_afectadas",
+						"type": "String"
+					},
+					{
+						"name": "vehiculo_afectado",
+						"type": "String"
+					},
+					{
+						"name": "descripcion",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_incidentes_2023_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2023"
 				},
 				"annotations": [],
 				"type": "Excel",
@@ -265,7 +466,7 @@
 					"sheetName": "Demanda_Paradas",
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "operacion_2022.xlsx",
+						"fileName": "operacion_2023.xlsx",
 						"folderPath": "datos_xls",
 						"fileSystem": "raw"
 					},
@@ -388,81 +589,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/bronze_incidentes_xls')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "sa_transporte",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "bronze/xls"
-				},
-				"annotations": [],
-				"type": "Excel",
-				"typeProperties": {
-					"sheetName": "Incidentes",
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "operacion_2022.xlsx",
-						"folderPath": "datos_xls",
-						"fileSystem": "raw"
-					},
-					"firstRowAsHeader": true
-				},
-				"schema": [
-					{
-						"name": "id_incidente",
-						"type": "String"
-					},
-					{
-						"name": "tipo",
-						"type": "String"
-					},
-					{
-						"name": "severidad",
-						"type": "String"
-					},
-					{
-						"name": "fecha_inicio",
-						"type": "String"
-					},
-					{
-						"name": "hora_inicio",
-						"type": "String"
-					},
-					{
-						"name": "fecha_fin",
-						"type": "String"
-					},
-					{
-						"name": "hora_fin",
-						"type": "String"
-					},
-					{
-						"name": "fecha_registro",
-						"type": "String"
-					},
-					{
-						"name": "rutas_afectadas",
-						"type": "String"
-					},
-					{
-						"name": "vehiculo_afectado",
-						"type": "String"
-					},
-					{
-						"name": "descripcion",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/bronze_notas_fuente_2022_xls')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -472,7 +598,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze/xls"
+					"name": "bronze/xls/2022"
 				},
 				"annotations": [],
 				"type": "Excel",
@@ -493,6 +619,171 @@
 					},
 					{
 						"name": "detalle",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_notas_fuente_2023_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2023"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Notas_fuente",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2023.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "elemento",
+						"type": "String"
+					},
+					{
+						"name": "detalle",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_paradas_2022_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2022"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Paradas",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2022.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "nro_parada",
+						"type": "String"
+					},
+					{
+						"name": "nombre_parada",
+						"type": "String"
+					},
+					{
+						"name": "zona",
+						"type": "String"
+					},
+					{
+						"name": "latitud",
+						"type": "String"
+					},
+					{
+						"name": "longitud",
+						"type": "String"
+					},
+					{
+						"name": "fecha_desde",
+						"type": "String"
+					},
+					{
+						"name": "fecha_hasta",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_paradas_2023_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2023"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Paradas",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2023.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "nro_parada",
+						"type": "String"
+					},
+					{
+						"name": "nombre_parada",
+						"type": "String"
+					},
+					{
+						"name": "zona",
+						"type": "String"
+					},
+					{
+						"name": "latitud",
+						"type": "String"
+					},
+					{
+						"name": "longitud",
+						"type": "String"
+					},
+					{
+						"name": "fecha_desde",
+						"type": "String"
+					},
+					{
+						"name": "fecha_hasta",
+						"type": "String"
+					},
+					{
+						"name": "estado",
 						"type": "String"
 					}
 				]
@@ -546,6 +837,124 @@
 					},
 					{
 						"name": "longitud",
+						"type": "String"
+					},
+					{
+						"name": "fecha_desde",
+						"type": "String"
+					},
+					{
+						"name": "fecha_hasta",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_rutas_2022_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2022"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Rutas",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2022.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "cod_ruta",
+						"type": "String"
+					},
+					{
+						"name": "nombre_ruta",
+						"type": "String"
+					},
+					{
+						"name": "origen",
+						"type": "String"
+					},
+					{
+						"name": "destino",
+						"type": "String"
+					},
+					{
+						"name": "fecha_desde",
+						"type": "String"
+					},
+					{
+						"name": "fecha_hasta",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sa_transporte')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/bronze_rutas_2023_xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sa_transporte",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "bronze/xls/2023"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Rutas",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "operacion_2023.xlsx",
+						"folderPath": "datos_xls",
+						"fileSystem": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "cod_ruta",
+						"type": "String"
+					},
+					{
+						"name": "nombre_ruta",
+						"type": "String"
+					},
+					{
+						"name": "origen",
+						"type": "String"
+					},
+					{
+						"name": "destino",
 						"type": "String"
 					},
 					{
@@ -628,7 +1037,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/bronze_vehiculos_csv')]",
+			"name": "[concat(parameters('factoryName'), '/bronze_vehiculos_2022_xls')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -637,21 +1046,19 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze/csv"
+					"name": "bronze/xls/2022"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Excel",
 				"typeProperties": {
+					"sheetName": "Vehiculos",
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "vehiculos.csv",
-						"folderPath": "datos_csv",
+						"fileName": "operacion_2022.xlsx",
+						"folderPath": "datos_xls",
 						"fileSystem": "raw"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
+					"firstRowAsHeader": true
 				},
 				"schema": [
 					{
@@ -689,7 +1096,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/bronze_viajes_csv')]",
+			"name": "[concat(parameters('factoryName'), '/bronze_vehiculos_2023_xls')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -698,65 +1105,47 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze/csv"
+					"name": "bronze/xls/2023"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Excel",
 				"typeProperties": {
+					"sheetName": "Vehiculos",
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "viajes.csv",
-						"folderPath": "datos_csv",
+						"fileName": "operacion_2023.xlsx",
+						"folderPath": "datos_xls",
 						"fileSystem": "raw"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
+					"firstRowAsHeader": true
 				},
 				"schema": [
-					{
-						"name": "id_viaje",
-						"type": "String"
-					},
-					{
-						"name": "cod_ruta",
-						"type": "String"
-					},
 					{
 						"name": "nro_bus",
 						"type": "String"
 					},
 					{
-						"name": "fec_servicio",
+						"name": "placa",
 						"type": "String"
 					},
 					{
-						"name": "hora_programada",
+						"name": "tipo_bus",
 						"type": "String"
 					},
 					{
-						"name": "hora_salida",
+						"name": "capacidad",
 						"type": "String"
 					},
 					{
-						"name": "hora_llegada",
+						"name": "fecha_desde",
 						"type": "String"
 					},
 					{
-						"name": "pasajeros_reportados",
+						"name": "fecha_hasta",
 						"type": "String"
 					},
 					{
-						"name": "km_recorridos",
-						"type": "String"
-					},
-					{
-						"name": "estado_viaje",
-						"type": "String"
-					},
-					{
-						"name": "tipo_metrica",
+						"name": "estado",
 						"type": "String"
 					}
 				]
