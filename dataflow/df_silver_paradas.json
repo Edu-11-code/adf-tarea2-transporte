@@ -113,6 +113,7 @@
 				"          Latitud,",
 				"          Longitud,",
 				"          VigenciaDesde,",
+				"          VigenciaHasta,",
 				"          Estado",
 				"     )) ~> sink1"
 			]
