@@ -33,6 +33,9 @@
 				},
 				{
 					"name": "aggregate1"
+				},
+				{
+					"name": "aggregate2"
 				}
 			],
 			"scriptLines": [
@@ -84,7 +87,7 @@
 				"          VigenciaHasta = iif(     isNull(VigenciaHasta),     toDate(null()),     iif(         instr(VigenciaHasta, '/') > 0,         toDate(VigenciaHasta, 'dd/MM/yyyy'),         iif(             length(VigenciaHasta) == 5,             addDays(toDate('1899-12-30', 'yyyy-MM-dd'), toInteger(VigenciaHasta)),             toDate(VigenciaHasta, 'yyyy-MM-dd')         )     ) ),",
 				"          Estado = upper(trim(Estado))) ~> derivedColumn1",
 				"source1 derive(CodigoRuta = iif(     isNull(CodigoRuta),     '',     CodigoRuta )) ~> derivedColumn2",
-				"derivedColumn1 aggregate(groupBy(RutaHistoricaId,",
+				"aggregate2 aggregate(groupBy(RutaHistoricaId,",
 				"          CodigoRuta,",
 				"          NombreRuta,",
 				"          Origen,",
@@ -93,6 +96,14 @@
 				"          VigenciaHasta,",
 				"          Estado),",
 				"     Contador = count()) ~> aggregate1",
+				"derivedColumn1 aggregate(groupBy(RutaHistoricaId),",
+				"     CodigoRuta = first(CodigoRuta),",
+				"          NombreRuta = first(NombreRuta),",
+				"          Origen = first(Origen),",
+				"          Destino = first(Destino),",
+				"          VigenciaDesde = first(VigenciaDesde),",
+				"          VigenciaHasta = first(VigenciaHasta),",
+				"          Estado = first(Estado)) ~> aggregate2",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
