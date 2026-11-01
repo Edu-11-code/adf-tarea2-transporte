@@ -29,13 +29,13 @@
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "split1"
-				},
-				{
 					"name": "filter1"
 				},
 				{
 					"name": "derivedColumn2"
+				},
+				{
+					"name": "filter2"
 				}
 			],
 			"scriptLines": [
@@ -56,7 +56,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"split1@validos derive(ViajeId = upper(trim(ViajeId)),",
+				"source1 derive(ViajeId = upper(trim(ViajeId)),",
 				"          RutaHistoricaId = upper(trim(RutaHistoricaId)),",
 				"          VehiculoId = upper(trim(VehiculoId)),",
 				"          FechaServicio = iif(     isNull(FechaServicio),     toDate(null()),     iif(         instr(FechaServicio, '/') > 0,         toDate(FechaServicio, 'dd/MM/yyyy'),         iif(             length(FechaServicio) == 5,             addDays(toDate('1899-12-30', 'yyyy-MM-dd'), toInteger(FechaServicio)),             toDate(FechaServicio, 'yyyy-MM-dd')         )     ) ),",
@@ -66,23 +66,15 @@
 				"          ValidacionesTarjeta = toInteger(ValidacionesTarjeta),",
 				"          KmRecorridos = toDecimal(toString(KmRecorridos), 8, 1),",
 				"          EstadoViaje = upper(trim(EstadoViaje))) ~> derivedColumn1",
-				"source1 split(!isNull(ViajeId)\r",
-				"&& !isNull(RutaHistoricaId)\r",
-				"&& !isNull(VehiculoId)\r",
-				"&& !isNull(FechaServicio)\r",
-				"&& !isNull(HoraProgramada)\r",
-				"&& !isNull(HoraSalida)\r",
-				"&& !isNull(HoraLlegada)\r",
-				"&& !isNull(KmRecorridos)\r",
-				"&& !isNull(EstadoViaje),",
-				"     disjoint: false) ~> split1@(validos, invalidos)",
-				"derivedColumn2 filter(!isNull(ViajeId)",
+				"filter2 filter(!isNull(ViajeId)",
 				"&& trim(ViajeId) != ''",
 				"&& !startsWith(ViajeId, 'TOTAL_')",
 				"&& !isNull(HoraProgramada)",
-				") ~> filter1",
+				"&& !isNull(HoraLlegada)) ~> filter1",
 				"derivedColumn1 derive(KmRecorridos = iif(     isNull(KmRecorridos) || trim(toString(KmRecorridos)) == '',     toDecimal(0),     toDecimal(KmRecorridos) ),",
 				"          ViajeId = iif(     isNull(ViajeId) || trim(ViajeId) == '',     toString(null()),     concat(         trim(ViajeId),         '-',         toString(year(FechaServicio))     ) )) ~> derivedColumn2",
+				"derivedColumn2 filter(isNull(HoraLlegada)",
+				"|| trim(toString(HoraLlegada)) == '') ~> filter2",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
