@@ -33,9 +33,6 @@
 				},
 				{
 					"name": "derivedColumn2"
-				},
-				{
-					"name": "filter2"
 				}
 			],
 			"scriptLines": [
@@ -66,15 +63,13 @@
 				"          ValidacionesTarjeta = toInteger(ValidacionesTarjeta),",
 				"          KmRecorridos = toDecimal(toString(KmRecorridos), 8, 1),",
 				"          EstadoViaje = upper(trim(EstadoViaje))) ~> derivedColumn1",
-				"filter2 filter(!isNull(ViajeId)",
+				"derivedColumn2 filter(!isNull(ViajeId)",
 				"&& trim(ViajeId) != ''",
 				"&& !startsWith(ViajeId, 'TOTAL_')",
 				"&& !isNull(HoraProgramada)",
 				"&& !isNull(HoraLlegada)) ~> filter1",
 				"derivedColumn1 derive(KmRecorridos = iif(     isNull(KmRecorridos) || trim(toString(KmRecorridos)) == '',     toDecimal(0),     toDecimal(KmRecorridos) ),",
 				"          ViajeId = iif(     isNull(ViajeId) || trim(ViajeId) == '',     toString(null()),     concat(         trim(ViajeId),         '-',         toString(year(FechaServicio))     ) )) ~> derivedColumn2",
-				"derivedColumn2 filter(isNull(HoraLlegada)",
-				"|| trim(toString(HoraLlegada)) == '') ~> filter2",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",

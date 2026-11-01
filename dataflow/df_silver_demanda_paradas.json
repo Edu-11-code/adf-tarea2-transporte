@@ -67,7 +67,7 @@
 				"    )\r",
 				"),",
 				"          RutaHistoricaId = trim(RutaHistoricaId),",
-				"          ParadaHistoricaId = upper(trim(ParadaHistoricaId)),",
+				"          ParadaHistoricaId = iif(     isNull(ParadaHistoricaId) || trim(ParadaHistoricaId) == '',     toString(null()),     iif(         upper(trim(ParadaHistoricaId)) == 'MC-01',         'P220-MC-NEW',         concat(upper(trim(ParadaHistoricaId)), '-2020')     ) ),",
 				"          Franja = trim(Franja),",
 				"          ValidacionesTarjeta = toInteger(ValidacionesTarjeta),",
 				"          Descensos = toInteger(Descensos),",
