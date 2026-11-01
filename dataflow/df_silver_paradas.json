@@ -35,9 +35,6 @@
 					"name": "aggregate1"
 				},
 				{
-					"name": "derivedColumn3"
-				},
-				{
 					"name": "filter1"
 				}
 			],
@@ -90,8 +87,7 @@
 				"          VigenciaHasta,",
 				"          Estado),",
 				"     Contador = count()) ~> aggregate1",
-				"derivedColumn1 derive(ParadaHistoricaId = concat(     ParadaHistoricaId,     '-',     toString(year(VigenciaDesde)) )) ~> derivedColumn3",
-				"derivedColumn3 filter(!isNull(CodigoPublicado)",
+				"derivedColumn1 filter(!isNull(CodigoPublicado)",
 				"&& trim(CodigoPublicado) != '') ~> filter1",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
