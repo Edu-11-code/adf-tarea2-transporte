@@ -33,6 +33,9 @@
 				},
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -85,10 +88,11 @@
 				"&& !isNull(KmRecorridos)\r",
 				"&& !isNull(EstadoViaje),",
 				"     disjoint: false) ~> split1@(validos, invalidos)",
-				"derivedColumn1 filter(!isNull(ViajeId)",
+				"derivedColumn2 filter(!isNull(ViajeId)",
 				"&& trim(ViajeId) != ''",
 				"&& !startsWith(ViajeId, 'TOTAL_')",
 				"&& !isNull(HoraProgramada)) ~> filter1",
+				"derivedColumn1 derive(KmRecorridos = iif(     isNull(KmRecorridos) || trim(toString(KmRecorridos)) == '',     toDecimal(0),     toDecimal(KmRecorridos) )) ~> derivedColumn2",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",

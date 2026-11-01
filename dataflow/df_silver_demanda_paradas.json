@@ -30,6 +30,9 @@
 				},
 				{
 					"name": "derivedColumn2"
+				},
+				{
+					"name": "derivedColumn3"
 				}
 			],
 			"scriptLines": [
@@ -64,18 +67,18 @@
 				"    )\r",
 				"),",
 				"          RutaHistoricaId = iif(\r",
-				"    startsWith(upper(trim(RutaHistoricaId)), 'RUTA '),\r",
-				"    concat('RH-', substring(trim(RutaHistoricaId), 6, 20)),\r",
+				"    startsWith(upper(trim(ParadaHistoricaId)), 'RUTA '),\r",
+				"    concat('RH-', substring(trim(ParadaHistoricaId), 6, 20)),\r",
 				"    iif(\r",
-				"        isNull(RutaHistoricaId) || trim(RutaHistoricaId) == '',\r",
+				"        isNull(ParadaHistoricaId) || trim(ParadaHistoricaId) == '',\r",
 				"        toString(null()),\r",
 				"        iif(\r",
-				"            startsWith(trim(RutaHistoricaId), 'R-'),\r",
-				"            concat('RH-', substring(trim(RutaHistoricaId), 3, 20)),\r",
+				"            startsWith(trim(ParadaHistoricaId), 'R-'),\r",
+				"            concat('RH-', substring(trim(ParadaHistoricaId), 3, 20)),\r",
 				"            iif(\r",
-				"                length(trim(RutaHistoricaId)) == 2,\r",
-				"                concat('RH-', trim(RutaHistoricaId)),\r",
-				"                upper(trim(RutaHistoricaId))\r",
+				"                length(trim(ParadaHistoricaId)) == 2,\r",
+				"                concat('RH-', trim(ParadaHistoricaId)),\r",
+				"                upper(trim(ParadaHistoricaId))\r",
 				"            )\r",
 				"        )\r",
 				"    )\r",
@@ -98,7 +101,8 @@
 				"    ),\r",
 				"    DemandaId\r",
 				")) ~> derivedColumn2",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 derive(ParadaHistoricaId = iif(     isNull(ParadaHistoricaId) || trim(ParadaHistoricaId) == '',     toString(null()),     concat(         trim(ParadaHistoricaId),         '-',         toString(year(FechaServicio))     ) )) ~> derivedColumn3",
+				"derivedColumn3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          DemandaId as string,",
