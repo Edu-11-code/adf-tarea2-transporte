@@ -136,7 +136,7 @@
 				"          DemandaId,",
 				"          FechaServicio,",
 				"          RutaHistoricaId,",
-				"          ParadaHistoricaId = RutaHistoricaId,",
+				"          ParadaHistoricaId,",
 				"          Franja,",
 				"          ValidacionesTarjeta,",
 				"          Descensos,",
