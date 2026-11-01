@@ -30,6 +30,9 @@
 				},
 				{
 					"name": "aggregate1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -78,7 +81,7 @@
 				"    )\r",
 				"),",
 				"          Estado = upper(trim(Estado))) ~> derivedColumn1",
-				"derivedColumn1 aggregate(groupBy(VehiculoId,",
+				"derivedColumn2 aggregate(groupBy(VehiculoId,",
 				"          Placa,",
 				"          TipoVehiculo,",
 				"          CapacidadEfectiva,",
@@ -86,6 +89,11 @@
 				"          VigenciaHasta,",
 				"          Estado),",
 				"     Contador = count()) ~> aggregate1",
+				"derivedColumn1 derive(VehiculoId = concat(\r",
+				"    VehiculoId,\r",
+				"    '-',\r",
+				"    toString(year(VigenciaDesde))\r",
+				")) ~> derivedColumn2",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
