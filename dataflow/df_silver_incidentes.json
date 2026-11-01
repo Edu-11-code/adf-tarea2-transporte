@@ -30,6 +30,9 @@
 				},
 				{
 					"name": "derivedColumn2"
+				},
+				{
+					"name": "derivedColumn3"
 				}
 			],
 			"scriptLines": [
@@ -61,7 +64,8 @@
 				"),",
 				"          Descripcion = trim(Descripcion)) ~> derivedColumn1",
 				"derivedColumn1 derive(VehiculoId = iif(     isNull(VehiculoId) || trim(VehiculoId) == '',     toString(null()),     concat(         trim(VehiculoId),         '-',         toString(year(FechaHoraInicio))     ) )) ~> derivedColumn2",
-				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"derivedColumn2 derive(VehiculoId = iif(     VehiculoId == 'V-043' && year(FechaHoraInicio) >= 2024,     concat(VehiculoId, '-1'),     toString(VehiculoId) )) ~> derivedColumn3",
+				"derivedColumn3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          IncidenteId as string,",
