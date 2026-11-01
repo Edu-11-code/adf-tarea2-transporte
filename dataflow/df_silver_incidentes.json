@@ -29,9 +29,6 @@
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "derivedColumn2"
-				},
-				{
 					"name": "derivedColumn3"
 				}
 			],
@@ -63,11 +60,22 @@
 				"    trim(toString(VehiculoId))\r",
 				"),",
 				"          Descripcion = trim(Descripcion)) ~> derivedColumn1",
-				"derivedColumn1 derive(VehiculoId = iif(     isNull(VehiculoId) || trim(VehiculoId) == '',     toString(null()),     concat(         trim(VehiculoId),         '-',         toString(year(FechaHoraInicio))     ) )) ~> derivedColumn2",
-				"derivedColumn2 derive(VehiculoId = iif(\r",
-				"    VehiculoId == 'V-043' && year(FechaHoraInicio) >= 2024,\r",
-				"    concat(toString(VehiculoId), '-1'),\r",
-				"    toString(VehiculoId)\r",
+				"derivedColumn1 derive(VehiculoId = iif(\r",
+				"    isNull(VehiculoId),\r",
+				"    toString(null()),\r",
+				"    iif(\r",
+				"        iif(\r",
+				"            left(toString(VehiculoId), 2) == 'V-',\r",
+				"            toString(VehiculoId),\r",
+				"            concat('V-', toString(VehiculoId))\r",
+				"        ) == 'V-043' && year(FechaHoraInicio) >= 2024,\r",
+				"        'V-043-1',\r",
+				"        iif(\r",
+				"            left(toString(VehiculoId), 2) == 'V-',\r",
+				"            toString(VehiculoId),\r",
+				"            concat('V-', toString(VehiculoId))\r",
+				"        )\r",
+				"    )\r",
 				")) ~> derivedColumn3",
 				"derivedColumn3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
