@@ -91,7 +91,7 @@
 				"     Contador = count()) ~> aggregate1",
 				"derivedColumn1 derive(VehiculoId = iif(\r",
 				"    VehiculoId == 'V-043' && year(VigenciaDesde) >= 2024,\r",
-				"    concat(VehiculoId, '-1'),\r",
+				"    concat(toString(VehiculoId), '-1'),\r",
 				"    toString(VehiculoId)\r",
 				")) ~> derivedColumn2",
 				"aggregate1 sink(allowSchemaDrift: true,",
