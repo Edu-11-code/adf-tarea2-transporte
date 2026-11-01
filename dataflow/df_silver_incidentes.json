@@ -27,6 +27,9 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -48,31 +51,17 @@
 				"source1 derive(IncidenteId = trim(IncidenteId),",
 				"          TipoIncidente = upper(trim(TipoIncidente)),",
 				"          Severidad = upper(trim(Severidad)),",
-				"          FechaHoraInicio = iif(\r",
-				"    isNull(FechaHoraInicio) || trim(toString(FechaHoraInicio)) == '',\r",
-				"    toTimestamp(null()),\r",
-				"    iif(\r",
-				"        instr(toString(FechaHoraInicio), '1899-12-31') > 0,\r",
-				"        toTimestamp(\r",
-				"            concat(\r",
-				"                substring(toString(FechaHoraInicio), 1, 10),\r",
-				"                ' ',\r",
-				"                substring(toString(FechaHoraInicio), 22, 8)\r",
-				"            ),\r",
-				"            'yyyy-MM-dd HH:mm:ss'\r",
-				"        ),\r",
-				"        toTimestamp(FechaHoraInicio)\r",
-				"    )\r",
-				"),",
-				"          FechaHoraFin = iif(     isNull(FechaHoraFin) || trim(toString(FechaHoraFin)) == '',     toTimestamp(null()),     iif(         instr(toString(FechaHoraFin), '1899-12-31') > 0,         toTimestamp(             concat(                 substring(toString(FechaHoraFin), 1, 10),                 ' ',                 substring(toString(FechaHoraFin), 22, 8)             ),             'yyyy-MM-dd HH:mm:ss'         ),         toTimestamp(FechaHoraFin)     ) ),",
-				"          FechaHoraRegistro = iif(     isNull(FechaHoraRegistro) || trim(toString(FechaHoraRegistro)) == '',     toTimestamp(null()),     iif(         instr(toString(FechaHoraRegistro), '1899-12-31') > 0,         toTimestamp(             concat(                 substring(toString(FechaHoraRegistro), 1, 10),                 ' ',                 substring(toString(FechaHoraRegistro), 22, 8)             ),             'yyyy-MM-dd HH:mm:ss'         ),         toTimestamp(FechaHoraRegistro)     ) ),",
+				"          FechaHoraInicio = iif(     isNull(FechaHoraInicio) || trim(toString(FechaHoraInicio)) == '',     toTimestamp(null()),     toTimestamp(trim(toString(FechaHoraInicio)), 'dd/MM/yyyy HH:mm') ),",
+				"          FechaHoraFin = iif(     isNull(FechaHoraFin) || trim(toString(FechaHoraFin)) == '',     toTimestamp(null()),     toTimestamp(trim(toString(FechaHoraFin)), 'dd/MM/yyyy HH:mm') ),",
+				"          FechaHoraRegistro = iif(     isNull(FechaHoraRegistro) || trim(toString(FechaHoraRegistro)) == '',     toTimestamp(null()),     toTimestamp(trim(toString(FechaHoraRegistro)), 'dd/MM/yyyy') ),",
 				"          VehiculoId = iif(\r",
 				"    isNull(VehiculoId) || trim(toString(VehiculoId)) == '',\r",
 				"    toString(null()),\r",
 				"    trim(toString(VehiculoId))\r",
 				"),",
 				"          Descripcion = trim(Descripcion)) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 filter(IncidenteId == 'IN-2020-0001') ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          IncidenteId as string,",

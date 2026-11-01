@@ -30,6 +30,9 @@
 				},
 				{
 					"name": "split1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -70,7 +73,10 @@
 				"&& !isNull(KmRecorridos)\r",
 				"&& !isNull(EstadoViaje),",
 				"     disjoint: false) ~> split1@(validos, invalidos)",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 filter(!isNull(ViajeId)",
+				"&& trim(ViajeId) != ''",
+				"&& !startsWith(ViajeId, 'TOTAL_')) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          ViajeId as string,",
