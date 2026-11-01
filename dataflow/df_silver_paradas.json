@@ -49,7 +49,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"derivedColumn2 derive(ParadaHistoricaId = upper(trim(CodigoPublicado)),",
+				"derivedColumn2 derive(ParadaHistoricaId = upper(trim(ParadaHistoricaId)),",
 				"          CodigoPublicado = upper(trim(CodigoPublicado)),",
 				"          NombreParada = trim(NombreParada),",
 				"          Zona = trim(Zona),",
