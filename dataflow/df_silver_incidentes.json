@@ -82,7 +82,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          IncidenteId = VehiculoId,",
+				"          IncidenteId,",
 				"          TipoIncidente,",
 				"          Severidad,",
 				"          FechaHoraInicio,",
