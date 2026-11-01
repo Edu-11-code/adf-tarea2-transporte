@@ -29,7 +29,7 @@
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "split1"
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -49,7 +49,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"split1@validos derive(DemandaId = trim(toString(DemandaId)),",
+				"derivedColumn2 derive(DemandaId = trim(toString(DemandaId)),",
 				"          FechaServicio = iif(instr(FechaServicio, '/') > 0, toDate (FechaServicio, 'dd/MM/yyyy'), toDate (FechaServicio, 'yyyy-MM-dd')),",
 				"          RutaHistoricaId = iif(\r",
 				"    startsWith(upper(trim(RutaHistoricaId)), 'RUTA '),\r",
@@ -74,8 +74,20 @@
 				"          Descensos = toInteger(Descensos),",
 				"          DemandaNoAtendida = toInteger(DemandaNoAtendida),",
 				"          Metodo = upper(trim(Metodo))) ~> derivedColumn1",
-				"source1 split(!isNull(DemandaId) && trim(toString(DemandaId)) != '',",
-				"     disjoint: false) ~> split1@(validos, invalidos)",
+				"source1 derive(DemandaId = iif(\r",
+				"    isNull(DemandaId),\r",
+				"    concat(\r",
+				"        'DEM-',\r",
+				"        toString(FechaServicio, 'yyyyMMdd'),\r",
+				"        '-',\r",
+				"        RutaHistoricaId,\r",
+				"        '-',\r",
+				"        ParadaHistoricaId,\r",
+				"        '-',\r",
+				"        replace(Franja, ':', '')\r",
+				"    ),\r",
+				"    DemandaId\r",
+				")) ~> derivedColumn2",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",

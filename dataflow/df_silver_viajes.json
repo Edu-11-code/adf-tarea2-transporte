@@ -27,6 +27,9 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -47,7 +50,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"source1 derive(ViajeId = upper(trim(ViajeId)),",
+				"split1@validos derive(ViajeId = upper(trim(ViajeId)),",
 				"          RutaHistoricaId = upper(trim(RutaHistoricaId)),",
 				"          VehiculoId = upper(trim(VehiculoId)),",
 				"          FechaServicio = iif(instr(FechaServicio, '/') > 0, toDate (FechaServicio, 'dd/MM/yyyy'), toDate (FechaServicio, 'yyyy-MM-dd')),",
@@ -57,6 +60,16 @@
 				"          ValidacionesTarjeta = toInteger(ValidacionesTarjeta),",
 				"          KmRecorridos = toDecimal(toString(KmRecorridos), 8, 1),",
 				"          EstadoViaje = upper(trim(EstadoViaje))) ~> derivedColumn1",
+				"source1 split(!isNull(ViajeId)\r",
+				"&& !isNull(RutaHistoricaId)\r",
+				"&& !isNull(VehiculoId)\r",
+				"&& !isNull(FechaServicio)\r",
+				"&& !isNull(HoraProgramada)\r",
+				"&& !isNull(HoraSalida)\r",
+				"&& !isNull(HoraLlegada)\r",
+				"&& !isNull(KmRecorridos)\r",
+				"&& !isNull(EstadoViaje),",
+				"     disjoint: false) ~> split1@(validos, invalidos)",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",

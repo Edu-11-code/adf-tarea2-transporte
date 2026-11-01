@@ -27,6 +27,9 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -45,7 +48,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"source1 derive(RutaHistoricaId = trim(RutaHistoricaId),",
+				"derivedColumn2 derive(RutaHistoricaId = trim(RutaHistoricaId),",
 				"          CodigoRuta = upper(trim(CodigoRuta)),",
 				"          NombreRuta = trim(NombreRuta),",
 				"          Origen = trim(Origen),",
@@ -53,6 +56,7 @@
 				"          VigenciaDesde = iif(instr(VigenciaDesde, '/') > 0, toDate (VigenciaDesde, 'dd/MM/yyyy'), toDate (VigenciaDesde, 'yyyy-MM-dd')),",
 				"          VigenciaHasta = iif(instr(VigenciaHasta, '/') > 0, toDate (VigenciaHasta, 'dd/MM/yyyy'), toDate (VigenciaHasta, 'yyyy-MM-dd')),",
 				"          Estado = upper(trim(Estado))) ~> derivedColumn1",
+				"source1 derive(CodigoRuta = iif(     isNull(CodigoRuta),     '',     CodigoRuta )) ~> derivedColumn2",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
