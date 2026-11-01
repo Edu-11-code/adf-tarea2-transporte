@@ -30,6 +30,9 @@
 				},
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -60,7 +63,8 @@
 				"    trim(toString(VehiculoId))\r",
 				"),",
 				"          Descripcion = trim(Descripcion)) ~> derivedColumn1",
-				"derivedColumn1 filter(IncidenteId == 'IN-2020-0001') ~> filter1",
+				"derivedColumn2 filter(VehiculoId == 'IN-2020-0001') ~> filter1",
+				"derivedColumn1 derive(VehiculoId = iif(     isNull(VehiculoId) || trim(VehiculoId) == '',     toString(null()),     concat(         trim(VehiculoId),         '-',         toString(year(FechaHoraInicio))     ) )) ~> derivedColumn2",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -82,7 +86,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          IncidenteId,",
+				"          IncidenteId = VehiculoId,",
 				"          TipoIncidente,",
 				"          Severidad,",
 				"          FechaHoraInicio,",
